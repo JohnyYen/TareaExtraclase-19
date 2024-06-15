@@ -49,7 +49,7 @@ export default class Interfaz{
     }
 
     viewReservation(){
-        this.reservationBooks.forEach((reservation, index) => {
+        this.reservationBooks.forEach((reservation,index) => {
             console.log(`Reservation #${index}`);
             console.log(`Date Reservation: ${reservation.fechaReserva}`);
             console.log(`Date Devolution: ${reservation.fechaDevolucion}`);
@@ -70,7 +70,7 @@ export default class Interfaz{
         let name;
         do {
             name = prompt('Introduce el nombre del usuario ');
-        } while (!name);
+        } while (!name || !isNaN(Number(name)));
         return name;
     }
 
@@ -78,7 +78,7 @@ export default class Interfaz{
         let age;
         do {
             age = prompt('Introduce la edad del usuario ');
-        } while (!age);
+        } while (!age || isNaN(Number(age)) || age <= 0);
         return age;
     }
 
@@ -86,7 +86,7 @@ export default class Interfaz{
         let sex;
         do {
             sex = prompt('Introduce el sexo del usuario ');
-        } while (!sex);
+        } while (!sex || !isNaN(Number(sex)));
         return sex;
     }
 
@@ -94,7 +94,7 @@ export default class Interfaz{
         let id;
         do {
             id = prompt('Introduce el id del usuario ');
-        } while (!id);
+        } while (!id || !isNaN(Number(id)));
         return id;
     }
 
@@ -102,7 +102,7 @@ export default class Interfaz{
         let title;
         do {
             title = prompt('Introduce el titulo del libro ');
-        } while (!title);
+        } while (!title || !isNaN(Number(title)));
         return title;
     }
 
@@ -110,7 +110,7 @@ export default class Interfaz{
         let author;
         do {
             author = prompt('Introduce el autor del libro ');
-        } while (!author);
+        } while (!author || !isNaN(Number(author)));
 
         return author;
     }
