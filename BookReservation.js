@@ -1,6 +1,6 @@
-import ReservaBase from './ReservaBase.js';
+import BaseReservation from './BaseReservation.js';
 
-export default class ReservaLibro extends ReservaBase{
+export default class BookReservation extends BaseReservation{
     constructor(book, dateDevolution, user, dateReservation){
         super(user, dateReservation);
         this.book = book;

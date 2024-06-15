@@ -1,11 +1,11 @@
-import ReservaLibro from './ReservaLibro.js';
+import BookReservation from './BookReservation.js';
 import pr from 'prompt-sync';
-import { Usuario } from './Usuario.js';
-import Libro from './Libro.js';
+import User from './User.js';
+import Book from './Book.js';
 
 const prompt = pr({sigint: true});
 
-export default class Interfaz{
+export default class Interface{
     constructor(){
         this.reservationBooks = new Set();
         this.users = new Map();
@@ -20,7 +20,7 @@ export default class Interfaz{
         if(user && book && dateDevolution){
             const today = new Date();
             if(today < dateDevolution)
-                this.reservationBooks.add(new ReservaLibro(book, dateDevolution, user, today));
+                this.reservationBooks.add(new BookReservation(book, dateDevolution, user, today));
             else
                 console.log('La fecha de devolucion es antes de la fecha de reservacion');
         }
@@ -33,11 +33,11 @@ export default class Interfaz{
     }
 
     addUser(name, age, sex, id){
-        this.users.set(id, new Usuario(name, age, sex, id));
+        this.users.set(id, new User(name, age, sex, id));
     }
 
     addBook(name, author){
-        this.books.set(name, new Libro(name, author));
+        this.books.set(name, new Book(name, author));
     }
 
     //Views
@@ -133,14 +133,17 @@ export default class Interfaz{
             case '1':
                 //Listar Libros
                 this.viewBooks();
+                
                 break;
             case '2':
                 //Listar Usuarios   
                 this.viewUsers();
+
                 break;
             case '3':
                 //Listar Reservas
                 this.viewReservation();
+
                 break;
             case '4':
                 //Crear Usuario    
@@ -149,19 +152,21 @@ export default class Interfaz{
                 const age = this.getAge();
                 const sex = this.getSex();
                 this.addUser(name, age, sex, id);
+
                 break;
             case '5':
                 //Crear Libro
                 const title = this.getTitle();
                 const author = this.getAuthor();
                 this.addBook(title, author);
+
                 break;
             case '6':
                 //Cancelar Reservas
                 const bookName = this.getTitle();
                 const userId = this.getIDUser();
                 this.cancelReservation(bookName, userId);
-                
+
                 break;
             case '7':
                 //Agregar Reserva de Libros
@@ -169,6 +174,7 @@ export default class Interfaz{
                 const idUser = this.getIDUser();
                 const date = new Date('2025-05-05');
                 this.addReservation(nameBook, idUser, date);
+
                 break;
             case '8':
                 //Salir de la aplicacion
@@ -179,7 +185,7 @@ export default class Interfaz{
                 console.log("Valor incorrecto");
                 break;
            }
-        
+           prompt('Toca una tecla para continuar...');
         }while(op != 8);
 
     }

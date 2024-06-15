@@ -1,7 +1,6 @@
-import Interfaz from './Interfaz.js'
+import Interface from "./Interface.js";
+const app = new Interface();
 
-const interfaz = new Interfaz();
-
-interfaz.menu();
+app.menu();
 
 
