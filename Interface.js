@@ -7,11 +7,12 @@ const prompt = pr({sigint: true});
 
 export default class Interface{
     constructor(){
-        this.reservationBooks = new Set();
+        this.reservationBooks = [];
         this.users = new Map();
         this.books = new Map();
     }
 
+    //Metodos para agregar nuevas instancias de las entidades
     //Add
     addReservation(nameBook, idUser, dateDevolution){
         const user = this.users.get(idUser);
@@ -20,7 +21,7 @@ export default class Interface{
         if(user && book && dateDevolution){
             const today = new Date();
             if(today < dateDevolution)
-                this.reservationBooks.add(new BookReservation(book, dateDevolution, user, today));
+                this.reservationBooks.push(new BookReservation(book, dateDevolution, user, today));
             else
                 console.log('La fecha de devolucion es antes de la fecha de reservacion');
         }
@@ -40,6 +41,7 @@ export default class Interface{
         this.books.set(name, new Book(name, author));
     }
 
+    //Metodos para listar las propiedades de las entidades
     //Views
     viewBooks(){
         this.books.forEach((book, index) => {
@@ -54,9 +56,11 @@ export default class Interface{
             console.log(`Date Reservation: ${reservation.fechaReserva}`);
             console.log(`Date Devolution: ${reservation.fechaDevolucion}`);
             console.log(reservation.book.viewProperties());
+            console.log(reservation.user);
             console.log(reservation.user.viewProperties());
         })
     }
+
     viewUsers(){
         this.users.forEach((user, index) => {
             console.log(`User #${index}`);
@@ -64,7 +68,7 @@ export default class Interface{
         });
     }
 
-    //Get Information
+    //Gets para pedir informacion
     //Usuario
     getNameUser(){
         let name;
@@ -86,15 +90,18 @@ export default class Interface{
         let sex;
         do {
             sex = prompt('Introduce el sexo del usuario ');
-        } while (!sex || !isNaN(Number(sex)));
+        } while (!sex || !isNaN(Number(sex)) || (sex.toUpperCase() != 'M' && sex.toUpperCase() != 'F'));
+
         return sex;
     }
 
     getIDUser(){
+
         let id;
+
         do {
             id = prompt('Introduce el id del usuario ');
-        } while (!id || !isNaN(Number(id)));
+        } while (!id || isNaN(Number(id)));
         return id;
     }
 
@@ -104,6 +111,14 @@ export default class Interface{
             title = prompt('Introduce el titulo del libro ');
         } while (!title || !isNaN(Number(title)));
         return title;
+    }
+
+    getDateDevolution(){
+        let date;
+        do{
+            date = prompt("Introduce una fecha en el formato YYYY-MM-DD");
+        }while(!date);
+        return new Date(date);
     }
 
     getAuthor(){
@@ -124,8 +139,8 @@ export default class Interface{
             console.log('3 -> Listar Reservas');
             console.log('4 -> Crear Usuario');
             console.log('5 -> Crear Libro');
-            console.log('6 -> Cancelar Reservas');
-            console.log('7 -> Agregar Reserva de Libros');
+            console.log('6 -> Agregar Reserva de Libros');
+            console.log('7 -> Cancelar Reservas');
             console.log('8 -> Salir del Sistema');
 
             op = prompt('Introduce una opcion ');
@@ -172,7 +187,7 @@ export default class Interface{
                 //Agregar Reserva de Libros
                 const nameBook = this.getTitle();
                 const idUser = this.getIDUser();
-                const date = new Date('2025-05-05');
+                const date = this.getDateDevolution();
                 this.addReservation(nameBook, idUser, date);
 
                 break;
@@ -193,11 +208,11 @@ export default class Interface{
     //Logic
     cancelReservation(nameBook, idUser){
         let flag = false;
-        for (let i = 0; i < this.reservationBooks.size && !flag; i++) {
+        for (let i = 0; i < this.reservationBooks.length && !flag; i++) {
             const reservation = this.reservationBooks[i];
 
-            if(reservation.book.title === nameBook && reservation.user.id === title){
-                this.reservationBooks.delete(reservation);
+            if(reservation.book.title === nameBook && reservation.user.id === idUser){
+                this.reservationBooks = this.reservationBooks.filter((e) => e !== reservation);
                 flag = true;
             }
             
